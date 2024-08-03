@@ -4,7 +4,7 @@ import org.bouncycastle.crypto.CryptoException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PakeUtilTest {
+class PakeUtilTest {
   @Test
   void testRandomHex() {
     String s = PakeUtil.randomHex(16);
