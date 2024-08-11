@@ -1,10 +1,12 @@
 plugins {
     id 'application'
     id 'org.springframework.boot' version '2.7.5'
-//    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id "com.diffplug.spotless" version "6.15.0" apply false
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "com.diffplug.spotless" version "6.6.0" apply false
+    id "org.sonarqube" version "5.0.0.4638"
+    id "jacoco"
 }
-//
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -50,18 +52,22 @@ dependencies {
     //swagger
     implementation "io.springfox:springfox-boot-starter:${springVersion}"
 
-    implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.15.0'
-
     implementation "org.springframework.data:spring-data-redis:2.7.5"
+    implementation "org.springframework.cloud:spring-cloud-starter-config:3.1.8"
     implementation 'io.lettuce:lettuce-core:6.3.2.RELEASE'
     implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'com.ctrip.framework.apollo:apollo-client-config-data:1.9.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.8'
+    implementation 'io.projectreactor.netty:reactor-netty-http:1.0.24'
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.110.Final:osx-aarch_64'
 
 
 }
-tasks.named("jar").configure{
-    enabled=false
+sonar {
+    properties {
+        property "sonar.projectKey", "MrHSDong_user-service_AZEWhygnP41lWL1pkG2N"
+    }
 }
-
 test {
     useJUnitPlatform()
 }

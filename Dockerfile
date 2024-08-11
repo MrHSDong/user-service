@@ -1,12 +1,8 @@
-FROM amazoncorretto:11.0.23
+FROM eclipse-temurin:qdo11.0.20.1_1-jdk
 WORKDIR /app
-COPY build/libs ./libs
+COPY build/libs/* ./
 COPY src ./src
-EXPOSE 8081
-# RUN sudo useradd -m app
-# RUN ll /bin
-# USER app
-CMD ["java", "-jar", "libs/user-service-1.0-SNAPSHOT.jar"]
-# CMD ["ls" ,"/bin"]
-# CMD ["ls", "-alh", "libs"]
-# CMD ["uname"]
+COPY entrypoint.sh /bin/entrypoint.sh
+RUN chmod +x /bin/entrypoint.sh
+ENTRYPOINT ["/bin/entrypoint.sh"]
+#CMD ["java", "-jar", "libs/user-service-1.0-SNAPSHOT.jar"]

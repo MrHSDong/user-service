@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: dong
+      MYSQL_PASSWORD: xunyi
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d:ro
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+  user-service:
+    build: .
+    command:
+      - apollo.meta=http://apollo:8080
+      - io.vertx.host=mysql
+      - io.vertx.port=3306
+      - io.vertx.database=user_db
+      - io.vertx.user=root
+      - io.vertx.password=password
+    ports:
+      - 8081:8081
+    depends_on:
+      - mysql
+      - redis
+      - apollo

@@ -1,8 +1,8 @@
 package org.dong.controller;
 
 import cn.hutool.core.util.BooleanUtil;
-import jakarta.validation.Valid;
 import java.time.Duration;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dong.dto.PwdExchange;
@@ -59,13 +59,13 @@ public class PasswordController {
 
   @PostMapping("/user/{open_id}/verify")
   public Mono<Boolean> verify(
-      @PathVariable("open_id") String openIdd, @Valid @RequestBody PwdProof pwdProof) {
+      @PathVariable("open_id") String openId, @Valid @RequestBody PwdProof pwdProof) {
     return redisTemplate
         .opsForValue()
-        .get("pake:snonce:" + openIdd)
+        .get("pake:snonce:" + openId)
         .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.PRECONDITION_FAILED)))
         .flatMap(snonce -> passwordRepo
-            .getByOpenId(openIdd)
+            .getByOpenId(openId)
             .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
             .map(userPassword -> PakeUtil.verify(
                 userPassword.getVerifier(),
